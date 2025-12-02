@@ -4,5 +4,8 @@ backend/node_modules
 # Ignore node modules from frontend
 frontend/node_modules
 
-# Ignore environment variables
+# Ignore environment variables from backend
 backend/.env  
+
+# Ignore environment variables from frontend
+frontend/.env
