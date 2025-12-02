@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BAOLTISSU</title>
+    <link href="/src/index.css" rel="stylesheet">
+
+    <style>
+        /* Empêcher Google de déplacer la page */
+        
+        body {
+            top: 0 !important;
+            position: relative !important;
+        }
+        /* Conteneur Google totalement invisble */
+        
+        #google_translate_element {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            height: 0 !important;
+            width: 0 !important;
+            pointer-events: none !important;
+        }
+        /* Masquer toutes les interfaces Google */
+        
+        .goog-te-banner-frame,
+        .goog-te-menu-frame,
+        .goog-te-gadget-icon,
+        .goog-te-gadget-simple,
+        .goog-tooltip,
+        #goog-gt-tt {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            height: 0 !important;
+            width: 0 !important;
+            pointer-events: none !important;
+        }
+    </style>
+
+    <script>
+        function removeGoogleTranslateUi() {
+            // Supprimer bannière
+            document.querySelectorAll("iframe.goog-te-banner-frame").forEach((el) => el.remove());
+            // Supprimer menu
+            document.querySelectorAll("iframe.goog-te-menu-frame").forEach((el) => el.remove());
+            // Supprimer tout iframe lié à Google
+            document.querySelectorAll("iframe").forEach((frame) => {
+                if (frame.src && frame.src.includes("translate.googleapis")) {
+                    frame.remove();
+                }
+            });
+
+            // Empêcher les décalages de page
+            if (document.body) {
+                document.body.style.top = "0px";
+            }
+        }
+
+        // Observer DOM
+        const observer = new MutationObserver(removeGoogleTranslateUi);
+        observer.observe(document.documentElement, {
+            childList: true,
+            subtree: true
+        });
+
+        // Sécurité anti-flash
+        setInterval(removeGoogleTranslateUi, 200);
+    </script>
+
+    <script>
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                    pageLanguage: "en",
+                    includedLanguages: "en,fr",
+                    autoDisplay: false
+                },
+                "google_translate_element"
+            );
+        }
+    </script>
+
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</head>
+
+<body>
+    <!-- Conteneur Google (invisible) -->
+    <div id="google_translate_element"></div>
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>
